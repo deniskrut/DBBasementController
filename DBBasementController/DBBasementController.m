@@ -199,7 +199,8 @@ typedef struct {
 - (void)closeMenuAndChangeContentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())closeCompletionBlock {
     UIViewController *oldContentViewController = self.contentViewController;
     //If the view controllers are the same we don't need to bother with appearance transition calls
-    BOOL callAppearanceMethods = oldContentViewController != viewController;
+    //Appearance methods are called for us on iOS 5, so don't bother nither
+    BOOL callAppearanceMethods = oldContentViewController != viewController && [[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0;
     
     if (self.options.bounceWhenNavigating && animated && [self menuIsOpen]) {
         CGFloat offscreenDistance = 10.0f;
